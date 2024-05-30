@@ -1,6 +1,6 @@
 module github.com/PrabalParihar/OZLib
 
-go 1.21.4
+go 1.20
 
 require github.com/p2eengineering/kalp-sdk-public v0.0.0-20240308101847-790b817406fc
 
