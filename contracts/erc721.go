@@ -1,4 +1,4 @@
-package contracts
+package token
 
 import (
     "encoding/json"
@@ -9,8 +9,8 @@ import (
 const balancePrefix = "balance"
 const nftPrefix = "nft"
 const approvalPrefix = "approval"
-const nameKey = "name"
-const symbolKey = "symbol"
+const nameKey1 = "name"
+const symbolKey1 = "symbol"
 
 type Nft struct {
     TokenId  string `json:"tokenId"`
@@ -70,7 +70,7 @@ func _nftExists(ctx kalpsdk.TransactionContextInterface, tokenId string) bool {
 }
 
 func (c *TokenERC721Contract) BalanceOf(ctx kalpsdk.TransactionContextInterface, owner string) int {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         panic("failed to check if contract is already initialized:" + err.Error())
     }
@@ -93,9 +93,8 @@ func (c *TokenERC721Contract) BalanceOf(ctx kalpsdk.TransactionContextInterface,
     }
     return balance
 }
-
 func (c *TokenERC721Contract) OwnerOf(ctx kalpsdk.TransactionContextInterface, tokenId string) (string, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return "", fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -112,7 +111,7 @@ func (c *TokenERC721Contract) OwnerOf(ctx kalpsdk.TransactionContextInterface, t
 }
 
 func (c *TokenERC721Contract) Approve(ctx kalpsdk.TransactionContextInterface, operator string, tokenId string) (bool, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return false, fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -159,7 +158,7 @@ func (c *TokenERC721Contract) Approve(ctx kalpsdk.TransactionContextInterface, o
 }
 
 func (c *TokenERC721Contract) SetApprovalForAll(ctx kalpsdk.TransactionContextInterface, operator string, approved bool) (bool, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return false, fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -200,8 +199,9 @@ func (c *TokenERC721Contract) SetApprovalForAll(ctx kalpsdk.TransactionContextIn
     return true, nil
 }
 
+
 func (c *TokenERC721Contract) IsApprovedForAll(ctx kalpsdk.TransactionContextInterface, owner string, operator string) (bool, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return false, fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -232,7 +232,7 @@ func (c *TokenERC721Contract) IsApprovedForAll(ctx kalpsdk.TransactionContextInt
 }
 
 func (c *TokenERC721Contract) GetApproved(ctx kalpsdk.TransactionContextInterface, tokenId string) (string, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return "false", fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -248,7 +248,7 @@ func (c *TokenERC721Contract) GetApproved(ctx kalpsdk.TransactionContextInterfac
 }
 
 func (c *TokenERC721Contract) TransferFrom(ctx kalpsdk.TransactionContextInterface, from string, to string, tokenId string) (bool, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return false, fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -334,7 +334,7 @@ func (c *TokenERC721Contract) TransferFrom(ctx kalpsdk.TransactionContextInterfa
 }
 
 func (c *TokenERC721Contract) Name(ctx kalpsdk.TransactionContextInterface) (string, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return "", fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -342,7 +342,7 @@ func (c *TokenERC721Contract) Name(ctx kalpsdk.TransactionContextInterface) (str
         return "", fmt.Errorf("Contract options need to be set before calling any function, call Initialize() to initialize contract")
     }
 
-    bytes, err := ctx.GetState(nameKey)
+    bytes, err := ctx.GetState(nameKey1)
     if err != nil {
         return "", fmt.Errorf("failed to get Name bytes: %s", err)
     }
@@ -351,7 +351,7 @@ func (c *TokenERC721Contract) Name(ctx kalpsdk.TransactionContextInterface) (str
 }
 
 func (c *TokenERC721Contract) Symbol(ctx kalpsdk.TransactionContextInterface) (string, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return "", fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -359,7 +359,7 @@ func (c *TokenERC721Contract) Symbol(ctx kalpsdk.TransactionContextInterface) (s
         return "", fmt.Errorf("Contract options need to be set before calling any function, call Initialize() to initialize contract")
     }
 
-    bytes, err := ctx.GetState(symbolKey)
+    bytes, err := ctx.GetState(symbolKey1)
     if err != nil {
         return "", fmt.Errorf("failed to get Symbol: %v", err)
     }
@@ -368,7 +368,7 @@ func (c *TokenERC721Contract) Symbol(ctx kalpsdk.TransactionContextInterface) (s
 }
 
 func (c *TokenERC721Contract) TokenURI(ctx kalpsdk.TransactionContextInterface, tokenId string) (string, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return "", fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -384,7 +384,7 @@ func (c *TokenERC721Contract) TokenURI(ctx kalpsdk.TransactionContextInterface, 
 }
 
 func (c *TokenERC721Contract) TotalSupply(ctx kalpsdk.TransactionContextInterface) int {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         panic("failed to check if contract is already initialized:" + err.Error())
     }
@@ -417,7 +417,7 @@ func (c *TokenERC721Contract) Initialize(ctx kalpsdk.TransactionContextInterface
         return false, fmt.Errorf("client is not authorized to set the name and symbol of the token")
     }
 
-    bytes, err := ctx.GetState(nameKey)
+    bytes, err := ctx.GetState(nameKey1)
     if err != nil {
         return false, fmt.Errorf("failed to get Name: %v", err)
     }
@@ -425,21 +425,20 @@ func (c *TokenERC721Contract) Initialize(ctx kalpsdk.TransactionContextInterface
         return false, fmt.Errorf("contract options are already set, client is not authorized to change them")
     }
 
-    err = ctx.PutStateWithoutKYC(nameKey, []byte(name))
+    err = ctx.PutStateWithoutKYC(nameKey1, []byte(name))
     if err != nil {
-        return false, fmt.Errorf("failed to PutState nameKey %s: %v", nameKey, err)
+        return false, fmt.Errorf("failed to PutState nameKey1 %s: %v", nameKey1, err)
     }
 
-    err = ctx.PutStateWithoutKYC(symbolKey, []byte(symbol))
+    err = ctx.PutStateWithoutKYC(symbolKey1, []byte(symbol))
     if err != nil {
-        return false, fmt.Errorf("failed to PutState symbolKey %s: %v", symbolKey, err)
+        return false, fmt.Errorf("failed to PutState symbolKey1 %s: %v", symbolKey1, err)
     }
 
     return true, nil
 }
-
 func (c *TokenERC721Contract) MintWithTokenURI(ctx kalpsdk.TransactionContextInterface, tokenId string, tokenURI string) (*Nft, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return nil, fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -513,9 +512,8 @@ func (c *TokenERC721Contract) MintWithTokenURI(ctx kalpsdk.TransactionContextInt
 
     return nft, nil
 }
-
 func (c *TokenERC721Contract) Burn(ctx kalpsdk.TransactionContextInterface, tokenId string) (bool, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return false, fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -573,9 +571,8 @@ func (c *TokenERC721Contract) Burn(ctx kalpsdk.TransactionContextInterface, toke
 
     return true, nil
 }
-
 func (c *TokenERC721Contract) ClientAccountBalance(ctx kalpsdk.TransactionContextInterface) (int, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return 0, fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -592,7 +589,7 @@ func (c *TokenERC721Contract) ClientAccountBalance(ctx kalpsdk.TransactionContex
 }
 
 func (c *TokenERC721Contract) ClientAccountID(ctx kalpsdk.TransactionContextInterface) (string, error) {
-    initialized, err := checkInitialized(ctx)
+    initialized, err := checkInitialized1(ctx)
     if err != nil {
         return "", fmt.Errorf("failed to check if contract is already initialized: %v", err)
     }
@@ -608,8 +605,9 @@ func (c *TokenERC721Contract) ClientAccountID(ctx kalpsdk.TransactionContextInte
     return clientAccount, nil
 }
 
-func checkInitialized(ctx kalpsdk.TransactionContextInterface) (bool, error) {
-    tokenName, err := ctx.GetState(nameKey)
+
+func checkInitialized1(ctx kalpsdk.TransactionContextInterface) (bool, error) {
+    tokenName, err := ctx.GetState(nameKey1)
     if err != nil {
         return false, fmt.Errorf("failed to get token name: %v", err)
     }
